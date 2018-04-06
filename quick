@@ -1,0 +1,13 @@
+
+# List
+docker images
+docker container ls
+
+# Build image from current repository containing Dockerfile
+docker build -t <tag> .
+
+# Run container from image in detached mode
+docker run -d -i <image_id>
+
+# Bash into container
+docker exec -i -t <container_id> bash
