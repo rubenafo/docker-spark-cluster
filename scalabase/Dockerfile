@@ -2,7 +2,7 @@ from openjdk:8-jdk-alpine
 
 USER root
 
-RUN apk add --no-cache wget bash
+RUN apk add --no-cache wget bash openssh
 
 WORKDIR /tmp
 RUN wget https://downloads.lightbend.com/scala/2.12.5/scala-2.12.5.tgz
