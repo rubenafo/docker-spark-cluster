@@ -1,3 +1,4 @@
 
-#ssh-keygen -b 4096 -P '' -f config/master_id_rsa
+ssh-keygen -t rsa -P '' -f config/id_rsa
+
 docker build . -t hadoopbase
