@@ -20,6 +20,7 @@ I find the latter much more fun:
 2) cd scalabase
 3) ./build.sh    # This builds the base java+scala debian container from openjdk9
 4) cd hadoop
+5) Download hadoop.gz and place it in /hadoop/deps/hadoop-3.1.0.tar.gz
 5) ./build.sh    # This builds hadoopbase image
 6) run ./deploy.sh
 7) docker ps -a shows:
