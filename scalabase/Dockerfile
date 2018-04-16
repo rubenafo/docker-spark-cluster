@@ -1,11 +1,9 @@
-from openjdk:8-jdk-alpine
+from openjdk:9
 
 USER root
 
-RUN apk add --no-cache wget bash openssh
-
-RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-RUN ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends openssh-server vim
 
 WORKDIR /tmp
 RUN wget https://downloads.lightbend.com/scala/2.12.5/scala-2.12.5.tgz
@@ -16,6 +14,5 @@ RUN rm scala-2.12.5.tgz
 
 RUN echo PubkeyAuthentication yes >> /etc/ssh/ssh_config
 RUN echo Host * >> /etc/ssh/ssh_config
-#RUN echo GSSAPIauthentication yes >> /etc/ssh/ssh_config
-#RUN echo PermitRootLogin yes >> /etc/ssh/ssh_config
-CMD /usr/sbin/sshd -D && bash
+RUN service ssh start
+CMD service ssh start && bash
