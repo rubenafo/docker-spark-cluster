@@ -1,5 +1,5 @@
 # docker-hadoop-cluster
-Build your own hadoop cluster inside Docker.   
+Build your own hadoop cluster inside Docker (Spark coming soon :hammer:).      
 A real multinode Hadoop installation where each node of the network runs in its own, separate docker container.   
 The installation takes care of the Hadoop configuration and setup:
 1) generates a debian image with scala and java9 (scalabase image)
