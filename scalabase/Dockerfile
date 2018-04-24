@@ -1,4 +1,4 @@
-from openjdk:9
+from openjdk:8
 
 USER root
 
