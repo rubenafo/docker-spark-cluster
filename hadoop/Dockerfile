@@ -6,7 +6,7 @@ EXPOSE 22/udp
 RUN useradd -m -s /bin/bash hadoop
 
 WORKDIR /home/hadoop
-COPY deps/hadoop-3.1.0.tar.gz /home/hadoop
+COPY deps/* /home/hadoop/
 RUN tar -zxf hadoop-3.1.0.tar.gz
 RUN mv hadoop-3.1.0 hadoop
 
@@ -29,6 +29,10 @@ RUN echo JAVA_HOME=/docker-java-home >> /home/hadoop/hadoop/etc/hadoop/hadoop-en
 RUN echo HDFS_NAMENODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
 RUN echo HDFS_DATANODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh                        
 RUN echo HDFS_SECONDARYNAMENODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
+
+# Spark
+RUN echo HADOOP_CONF_DIR=/home/hadoop/hadoop/etc/hadoop >> /home/hadoop/.bashrc
+RUN echo SPARK_DIST_CLASSPATH=$(hadoop classpath) >> /home/hadoop/.bashrc
 
 COPY config/core-site.xml config/hdfs-site.xml config/mapred-site.xml config/yarn-site.xml config/workers /home/hadoop/hadoop/etc/hadoop/
 RUN chown hadoop /home/hadoop/hadoop/etc/hadoop/*
