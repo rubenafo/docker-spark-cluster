@@ -12,6 +12,7 @@ docker run -d --net sparknet --ip 172.18.1.3 --hostname node3  --add-host nodema
 # Format nodemaster
 echo ">> Formatting hdfs ..."
 docker exec -u hadoop -it nodemaster hadoop/bin/hdfs namenode -format
+echo ">> Starting hdfs ..."
 docker exec -u hadoop -it nodemaster hadoop/sbin/start-dfs.sh
-sleep 10
-docker exec -u hadoop -it nodemaster hadoop/sbin/start-yarn.sh
+echo ">> Starting yarn ..."
+docker exec -u hadoop -d nodemaster hadoop/sbin/start-yarn.sh
