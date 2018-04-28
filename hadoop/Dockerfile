@@ -12,6 +12,7 @@ RUN mv hadoop-3.1.0 hadoop
 RUN tar -zxf spark-2.3.0-*.tgz
 RUN rm *.tgz
 RUN mv spark-2.3.0-* spark
+RUN chown hadoop spark -R
 
 RUN mkdir /home/hadoop/.ssh
 RUN echo PubkeyAcceptedKeyTypes +ssh-dss >> /home/hadoop/.ssh/config
@@ -25,7 +26,7 @@ RUN chown hadoop .ssh -R
 RUN echo PATH=/home/hadoop/hadoop/bin:/home/hadoop/hadoop/sbin:$PATH >> /home/hadoop/.profile
 RUN echo PATH=/home/hadoop/hadoop/bin:/home/hadoop/hadoop/sbin:$PATH >> /home/hadoop/.bashrc
 RUN mkdir -p /home/hadoop/data/nameNode /home/hadoop/data/dataNode /home/hadoop/data/namesecondary /home/hadoop/data/tmp
-RUN chown hadoop /home/hadoop/data/nameNode /home/hadoop/data/dataNode /home/hadoop/data/namesecondary /home/hadoop/data/tmp
+RUN chown hadoop /home/hadoop/data/nameNode /home/hadoop/data/dataNode /home/hadoop/data/namesecondary /home/hadoop/data/tmp /home/hadoop/spark
 RUN echo HADOOP_HOME=/home/hadoop/hadoop >> /home/hadoop/.bashrc
 RUN chown hadoop /home/hadoop/.profile /home/hadoop/.bashrc
 RUN echo JAVA_HOME=/docker-java-home >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
@@ -37,6 +38,8 @@ RUN echo HDFS_SECONDARYNAMENODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/ha
 RUN echo "export HADOOP_CONF_DIR=/home/hadoop/hadoop/etc/hadoop" >> /home/hadoop/.bashrc
 RUN echo "export HADOOP_CONF_DIR=/home/hadoop/hadoop/etc/hadoop" >> /home/hadoop/.profile
 RUN echo "export SPARK_DIST_CLASSPATH=\$(hadoop classpath)" >> /home/hadoop/.bashrc
+RUN echo "export SPARK_DIST_CLASSPATH=\$(hadoop classpath)" >> /home/hadoop/.profile
+COPY config/workers /home/hadoop/spark/conf/slaves
 
 COPY config/core-site.xml config/hdfs-site.xml config/mapred-site.xml config/yarn-site.xml config/workers /home/hadoop/hadoop/etc/hadoop/
 RUN chown hadoop /home/hadoop/hadoop/etc/hadoop/*
