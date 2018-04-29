@@ -31,5 +31,6 @@ I find the latter much more fun:
 docker-spark-cluster/deploy.sh stop   # Stop the cluster
 docker-spark-cluster/deploy.sh start  # Start the cluster
 
+# Warning! This will remove everything from HDFS
 docker-spark-cluster/deploy.sh deploy # Format the cluster and deploy images again
 ```
