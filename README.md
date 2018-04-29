@@ -19,18 +19,18 @@ I find the latter much more fun:
 1) Clone this repository
 2) cd scalabase
 3) ./build.sh    # This builds the base java+scala debian container from openjdk9
-4) cd spark
+4) cd ../spark
 5) ./build.sh    # This builds sparkbase image
-6) run ./deploy.sh deploy
+6) run ./cluster.sh deploy
 7) The script will finish displaying the Hadoop and Spark admin URLs:
     * Hadoop info @ nodemaster: http://172.18.1.1:8088/cluster
     * Spark info @ nodemater  : http://172.18.1.1:8080/
 
 ## Options
 ```bash
-deploy.sh stop   # Stop the cluster
-deploy.sh start  # Start the cluster
+cluster.sh stop   # Stop the cluster
+cluster.sh start  # Start the cluster
 
 # Warning! This will remove everything from HDFS
-deploy.sh deploy # Format the cluster and deploy images again
+cluster.sh deploy # Format the cluster and deploy images again
 ```
