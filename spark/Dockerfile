@@ -39,7 +39,11 @@ RUN echo "export HADOOP_CONF_DIR=/home/hadoop/hadoop/etc/hadoop" >> /home/hadoop
 RUN echo "export HADOOP_CONF_DIR=/home/hadoop/hadoop/etc/hadoop" >> /home/hadoop/.profile
 RUN echo "export SPARK_DIST_CLASSPATH=\$(hadoop classpath)" >> /home/hadoop/.bashrc
 RUN echo "export SPARK_DIST_CLASSPATH=\$(hadoop classpath)" >> /home/hadoop/.profile
+RUN echo "export SPARK_HOME=/home/hadoop/spark" >> /home/hadoop/.profile
+RUN echo "export SPARK_HOME=/home/hadoop/spark" >> /home/hadoop/.bashrc
 COPY config/workers /home/hadoop/spark/conf/slaves
+COPY config/sparkcmd.sh /home/hadoop/
+RUN chown hadoop /home/hadoop/*
 
 COPY config/core-site.xml config/hdfs-site.xml config/mapred-site.xml config/yarn-site.xml config/workers /home/hadoop/hadoop/etc/hadoop/
 RUN chown hadoop /home/hadoop/hadoop/etc/hadoop/*
