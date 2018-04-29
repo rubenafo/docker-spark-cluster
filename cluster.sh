@@ -49,7 +49,7 @@ if [[ $1 = "deploy" ]]; then
   exit
 fi
 
-echo "Usage: deploy.sh deploy|start|stop"
+echo "Usage: cluster.sh deploy|start|stop"
 echo "                 deploy - create a new Docker network"
 echo "                 start  - start the existing containers"
 echo "                 stop   - stop the running containers"  
