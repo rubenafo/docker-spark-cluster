@@ -24,7 +24,8 @@ I find the latter much more fun:
 6) run ./cluster.sh deploy
 7) The script will finish displaying the Hadoop and Spark admin URLs:
     * Hadoop info @ nodemaster: http://172.18.1.1:8088/cluster
-    * Spark info @ nodemater  : http://172.18.1.1:8080/
+    * Spark info @ nodemaster : http://172.18.1.1:8080/
+    * DFS Health @ nodemaster : http://172.18.1.1:9870/dfshealth.html
 
 ## Options
 ```bash
