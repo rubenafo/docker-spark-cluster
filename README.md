@@ -13,7 +13,8 @@ You can run Spark in a (boring) standalone setup or create your own network to h
 I find the latter much more fun:
 * you can experiment with an almost-real network setup
 * experience network issues from wrong Hadoop installation
-* simulate scalability, downtimes and rebalance by adding/removing nodes to the network automagically
+* simulate scalability, downtimes and rebalance by adding/removing nodes to the network automagically   
+
 There is a Medium article related to this: https://medium.com/@rubenafo/running-a-spark-cluster-setup-in-docker-containers-573c45cceabf
 
 ## Installation
