@@ -7,11 +7,11 @@ RUN useradd -m -s /bin/bash hadoop
 
 WORKDIR /home/hadoop
 COPY deps/* /home/hadoop/
-RUN tar -zxf hadoop-3.1.0.tar.gz
-RUN mv hadoop-3.1.0 hadoop
-RUN tar -zxf spark-2.3.0-*.tgz
+RUN tar -zxf hadoop-3.2.0.tar.gz
+RUN mv hadoop-3.2.0 hadoop
+RUN tar -zxf spark-2.4.0-*.tgz
 RUN rm *.tgz
-RUN mv spark-2.3.0-* spark
+RUN mv spark-2.4.0-* spark
 RUN chown hadoop spark -R
 
 RUN mkdir /home/hadoop/.ssh
