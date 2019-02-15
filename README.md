@@ -3,10 +3,11 @@ Build your own Spark cluster setup in Docker.
 A multinode Spark installation where each node of the network runs in its own separated Docker container.   
 The installation takes care of the Hadoop & Spark configuration, providing:
 1) a debian image with scala and java9 (scalabase image)
-2) three fully configured Spark nodes running on Hadoop (sparkbase image):
+2) four fully configured Spark nodes running on Hadoop (sparkbase image):
     * nodemaster (master node)
     * node2      (slave)
     * node3      (slave)
+    * node4      (slave)
 
 ## Motivation
 You can run Spark in a (boring) standalone setup or create your own network to hold a full cluster setup inside Docker.   

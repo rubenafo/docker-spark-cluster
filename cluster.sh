@@ -2,7 +2,7 @@
 
 # Bring the services up
 function startServices {
-  docker start nodemaster node2 node3
+  docker start nodemaster node2 node3 node4
   sleep 5
   echo ">> Starting hdfs ..."
   docker exec -u hadoop -it nodemaster hadoop/sbin/start-dfs.sh
@@ -14,6 +14,7 @@ function startServices {
   docker exec -u hadoop -d nodemaster /home/hadoop/sparkcmd.sh start
   docker exec -u hadoop -d node2 /home/hadoop/sparkcmd.sh start
   docker exec -u hadoop -d node3 /home/hadoop/sparkcmd.sh start
+  docker exec -u hadoop -d node4 /home/hadoop/sparkcmd.sh start
   echo "Hadoop info @ nodemaster: http://172.18.1.1:8088/cluster"
   echo "Spark info @ nodemater  : http://172.18.1.1:8080/"
 }
@@ -27,7 +28,8 @@ if [[ $1 = "stop" ]]; then
   docker exec -u hadoop -d nodemaster /home/hadoop/sparkcmd.sh stop
   docker exec -u hadoop -d node2 /home/hadoop/sparkcmd.sh stop
   docker exec -u hadoop -d node3 /home/hadoop/sparkcmd.sh stop
-  docker stop nodemaster node2 node3
+  docker exec -u hadoop -d node4 /home/hadoop/sparkcmd.sh stop
+  docker stop nodemaster node2 node3 node4
   exit
 fi
 
@@ -38,9 +40,10 @@ if [[ $1 = "deploy" ]]; then
 
   # 3 nodes
   echo ">> Starting nodes master and worker nodes ..."
-  docker run -d --net sparknet --ip 172.18.1.1 --hostname nodemaster --add-host node2:172.18.1.2 --add-host node3:172.18.1.3 --name nodemaster -it sparkbase
-  docker run -d --net sparknet --ip 172.18.1.2 --hostname node2  --add-host nodemaster:172.18.1.1 --add-host node3:172.18.1.3 --name node2 -it sparkbase
-  docker run -d --net sparknet --ip 172.18.1.3 --hostname node3  --add-host nodemaster:172.18.1.1 --add-host node2:172.18.1.2 --name node3 -it sparkbase
+  docker run -d --net sparknet --ip 172.18.1.1 --hostname nodemaster --add-host node2:172.18.1.2 --add-host node3:172.18.1.3 --add-host node4:172.18.1.4 --name nodemaster -it sparkbase
+  docker run -d --net sparknet --ip 172.18.1.2 --hostname node2  --add-host nodemaster:172.18.1.1 --add-host node3:172.18.1.3 --add-host node4:172.18.1.4 --name node2 -it sparkbase
+  docker run -d --net sparknet --ip 172.18.1.3 --hostname node3  --add-host nodemaster:172.18.1.1 --add-host node2:172.18.1.2 --add-host node4:172.18.1.4 --name node3 -it sparkbase
+  docker run -d --net sparknet --ip 172.18.1.4 --hostname node4  --add-host nodemaster:172.18.1.1 --add-host node2:172.18.1.2 --add-host node3:172.18.1.3 --name node4 -it sparkbase
 
   # Format nodemaster
   echo ">> Formatting hdfs ..."
