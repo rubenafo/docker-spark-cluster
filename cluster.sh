@@ -15,8 +15,14 @@ function startServices {
   docker exec -u hadoop -d node2 /home/hadoop/sparkcmd.sh start
   docker exec -u hadoop -d node3 /home/hadoop/sparkcmd.sh start
   docker exec -u hadoop -d node4 /home/hadoop/sparkcmd.sh start
-  echo "Hadoop info @ nodemaster: http://172.18.1.1:8088/cluster"
-  echo "Spark info @ nodemater  : http://172.18.1.1:8080/"
+  show_info
+}
+
+function show_info {
+  masterIp=`docker inspect -f "{{ .NetworkSettings.Networks.sparknet.IPAddress }}" nodemaster`
+  echo "Hadoop info @ nodemaster: http://$masterIp:8088/cluster"
+  echo "Spark info @ nodemater  : http://$masterIp:8080/"
+  echo "DFS Health @ nodemaster : http://$masterIp:9870/dfshealth.html"
 }
 
 if [[ $1 = "start" ]]; then
@@ -36,14 +42,14 @@ fi
 if [[ $1 = "deploy" ]]; then
   docker rm -f `docker ps -aq` # delete old containers
   docker network rm sparknet
-  docker network create --subnet=172.18.0.0/16 sparknet # create custom network
+  docker network create --driver bridge sparknet # create custom network
 
   # 3 nodes
   echo ">> Starting nodes master and worker nodes ..."
-  docker run -d --net sparknet --ip 172.18.1.1 --hostname nodemaster --add-host node2:172.18.1.2 --add-host node3:172.18.1.3 --add-host node4:172.18.1.4 --name nodemaster -it sparkbase
-  docker run -d --net sparknet --ip 172.18.1.2 --hostname node2  --add-host nodemaster:172.18.1.1 --add-host node3:172.18.1.3 --add-host node4:172.18.1.4 --name node2 -it sparkbase
-  docker run -d --net sparknet --ip 172.18.1.3 --hostname node3  --add-host nodemaster:172.18.1.1 --add-host node2:172.18.1.2 --add-host node4:172.18.1.4 --name node3 -it sparkbase
-  docker run -d --net sparknet --ip 172.18.1.4 --hostname node4  --add-host nodemaster:172.18.1.1 --add-host node2:172.18.1.2 --add-host node3:172.18.1.3 --name node4 -it sparkbase
+  docker run -dP --network sparknet --name nodemaster -h nodemaster -it sparkbase
+  docker run -dP --network sparknet --name node2 -it -h node2 sparkbase
+  docker run -dP --network sparknet --name node3 -it -h node3 sparkbase
+  docker run -dP --network sparknet --name node4 -it -h node4 sparkbase
 
   # Format nodemaster
   echo ">> Formatting hdfs ..."
@@ -52,7 +58,13 @@ if [[ $1 = "deploy" ]]; then
   exit
 fi
 
+if [[ $1 = "info" ]]; then
+  show_info
+  exit
+fi
+
 echo "Usage: cluster.sh deploy|start|stop"
 echo "                 deploy - create a new Docker network"
 echo "                 start  - start the existing containers"
-echo "                 stop   - stop the running containers"  
+echo "                 stop   - stop the running containers" 
+echo "                 info   - useful URLs" 
