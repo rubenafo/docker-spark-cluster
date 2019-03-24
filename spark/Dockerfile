@@ -1,3 +1,5 @@
+
+
 FROM scalabase:latest
 
 EXPOSE 8081
@@ -11,9 +13,16 @@ RUN useradd -m -s /bin/bash hadoop
 WORKDIR /home/hadoop
 
 USER hadoop
-COPY --chown=hadoop deps/* /home/hadoop/
+RUN  wget https://archive.apache.org/dist/hadoop/core/hadoop-3.2.0/hadoop-3.2.0$
+RUN  wget https://archive.apache.org/dist/spark/spark-2.4.0/spark-2.4.0-bin-wit$
+RUN ls -a /home/hadoop
+
+RUN chown hadoop /home/hadoop
+
 RUN tar -zxf hadoop-3.2.0.tar.gz
 RUN mv hadoop-3.2.0 hadoop
+
+
 RUN tar -zxf spark-2.4.0-*.tgz
 RUN rm *.tgz
 RUN mv spark-2.4.0-* spark
@@ -38,7 +47,7 @@ RUN echo HADOOP_HOME=/home/hadoop/hadoop >> /home/hadoop/.bashrc
 #RUN chown hadoop /home/hadoop/.profile /home/hadoop/.bashrc
 RUN echo JAVA_HOME=/docker-java-home >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
 RUN echo HDFS_NAMENODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo HDFS_DATANODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh                        
+RUN echo HDFS_DATANODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
 RUN echo HDFS_SECONDARYNAMENODE_USER=hadoop >> /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
 
 # Spark
