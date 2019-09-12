@@ -1,0 +1,6 @@
+
+#
+JAVA_HOME=/usr/local/openjdk-8
+HDFS_NAMENODE_USER=hadoop
+HDFS_DATANODE_USER=hadoop
+HDFS_SECONDARYNAMENODE_USER=hadoop
