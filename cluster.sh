@@ -21,8 +21,8 @@ function startServices {
 function show_info {
   masterIp=`docker inspect -f "{{ .NetworkSettings.Networks.sparknet.IPAddress }}" nodemaster`
   echo "Hadoop info @ nodemaster: http://$masterIp:8088/cluster"
-  echo "Spark info @ nodemater  : http://$masterIp:8080/"
-  echo "DFS Health @ nodemaster : http://$masterIp:9870/dfshealth.html"
+  echo "Spark info @ nodemaster:  http://$masterIp:8080/"
+  echo "DFS Health @ nodemaster:  http://$masterIp:9870/dfshealth.html"
 }
 
 if [[ $1 = "start" ]]; then
