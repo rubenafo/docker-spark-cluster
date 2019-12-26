@@ -40,7 +40,7 @@ if [[ $1 = "stop" ]]; then
 fi
 
 if [[ $1 = "deploy" ]]; then
-  docker rm -f `docker ps -aq` # delete old containers
+  docker rm -f `docker ps -a | grep sparkbase | awk '{ print $1 }'` # delete old containers
   docker network rm sparknet
   docker network create --driver bridge sparknet # create custom network
 
